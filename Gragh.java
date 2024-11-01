@@ -60,6 +60,57 @@ void dijkstra(int src, int dest, RandomAccessFile f) throws Exception {
     }
 }
 
+// find set
+void dijkstra2(int src, int dest, RandomAccessFile f) throws Exception {
+    int[] dist = new int[n];
+    boolean[] visited = new boolean[n];
+    int[] parent = new int[n];
+    int INF = 99;
+    Arrays.fill(dist, INF);
+    Arrays.fill(visited, false);
+    Arrays.fill(parent, -1);
+    dist[src] = 0;
+    parent[src] = -1;
+
+    PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(arr -> arr[1]));
+    int[] resv = new int[2 * n];
+    int[] resdi = new int[2 * n];
+    int length = 0;
+    pq.add(new int[] { src, 0 });
+    while (!pq.isEmpty()) {
+        int distu = pq.peek()[1];
+        int u = pq.poll()[0];
+        if (visited[u]) {
+            continue;
+        }
+
+        visited[u] = true;
+
+        if (dist[u] == INF) {
+            continue;
+        }
+
+        resv[length] = u;
+        resdi[length] = distu;
+        length++;
+
+        for (int v = 0; v < n; v++) {
+            if (!visited[v]
+                    && a[u][v] != 0
+                    && dist[v] > dist[u] + a[u][v]) {
+                dist[v] = dist[u] + a[u][v];
+                parent[v] = u;
+                pq.add(new int[] { v, dist[v] });
+            }
+        }
+    }
+
+    for (int i = length - 3; i < length; i++) {
+        fvisit(resv[i], resdi[i], f);
+    }
+
+}
+
 // -- tim eulerCycle
 
 void findEulerianCycle(int start) {
