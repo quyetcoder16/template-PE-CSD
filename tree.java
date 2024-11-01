@@ -1,4 +1,7 @@
 // them dung de quy
+
+import org.w3c.dom.Node;
+
 Node insert(Node currentNode, Brick value) {
     if (root == null) {
         root = new Node(value);
@@ -96,21 +99,17 @@ Node rBST_Delete(Node currentNode, int value) {
 }
 
 private Node findMin(Node currentNode) {
-    Node min = currentNode;
     while (currentNode.left != null) {
         currentNode = currentNode.left;
-        min.info = currentNode.info;
     }
-    return min;
+    return currentNode;
 }
 
 private Node findMax(Node currentNode) {
-    Node max = currentNode;
     while (currentNode.right != null) {
         currentNode = currentNode.right;
-        max.info = currentNode.info;
     }
-    return max;
+    return currentNode;
 }
 
 // quay phai
